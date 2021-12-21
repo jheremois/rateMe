@@ -13,16 +13,15 @@ const conf = appConfig.passport.JWT
 
 export const register = async (req: Request, res: Response) => {
   
-  const { email, password, username }: userType = req.body
+  const { email, password, user_name }: userType = req.body
 
-  email && password && username
+  email && password && user_name
     ?
     passwrdHashing(password).then((pswrd)=>{
       pool.query('INSERT INTO users SET?',{
         email,
-        password: pswrd,
-        username
-      }, (err, response: [])=>{
+        password: pswrd
+      }, (err, response: any)=>{
         err
           ?
             res.status(500).json(
@@ -32,12 +31,18 @@ export const register = async (req: Request, res: Response) => {
               }
             )
           :
-            res.status(200).json(
-              {
-                status: 200,
-                response: response
-              }
-            )
+            pool.query('INSERT INTO profiles SET?',{
+              user_id: response.insertId,
+              user_name: user_name
+            }, (profileRes)=>{
+              res.json(
+                {
+                  ProfileRes: profileRes,
+                  UserRes: response,
+                  status: 200,
+                }
+              )
+            }) 
       })
     })
     :
@@ -70,14 +75,20 @@ export const login = async (req: Request, res: Response) => {
               
               if (validPassword) {
                 
-                const token = sign({user_id: response[0].user_id, username: response[0].username}, conf.CLIENT_SECRET, {expiresIn: "1h"})
+                const token = sign({user_id: response[0].user_id, user_name: response[0].user_name}, conf.CLIENT_SECRET, {expiresIn: "1h"})
                 console.log(token)
 
                 res.status(200).json({ 
                   status: 200,
                   message: "Valid password",
-                  token: token,
-                  user: response[0]
+                  data: {
+                    user_token: token,
+                    user: {
+                      email: response[0].email,
+                      user_id: response[0].user_id,
+                      user_name: response[0].user_name
+                    }
+                  }
                 })
 
               }else{
