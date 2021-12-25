@@ -5,7 +5,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/ritme-335915/github.com/jheremois/ritme-server:$SHORT_SHA']
 
-  - name: envi
+  - name: envioreme
     env:
       CI: true
       DB_HOST_DEV: ${{ secrets.DB_HOST_DEV }}
