@@ -20,10 +20,12 @@ app.use(express.json())
 app.use(passport.initialize())
 passport.use(passportMiddleware)
 
-
 const port = app.get('port')
 
 app.use('/api/', [AuthRoutes(), UserRoutes()])
+app.use('/', (req: any, res: any)=> {
+    res.send("Ritme-dev")
+})
 
 server.listen(port);
 server.on('error', (err)=>{

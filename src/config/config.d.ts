@@ -1,5 +1,5 @@
 export type AppConfig = {
-  PORT: number;
+  PORT?: number | string;
   HOST: string;
 };
 
