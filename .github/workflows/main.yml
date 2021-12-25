@@ -22,13 +22,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
-      - name: 'gcr.io/cloud-builders/docker'
-        args: ['build', 'gcr.io/ritme-335915/github.com/jheremois/ritme-server:$SHORT_SHA', '.']
-
-      - name: 'gcr.io/cloud-builders/docker'
-        args: ['push', 'gcr.io/ritme-335915/github.com/jheremois/ritme-server:$SHORT_SHA']
-        
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
