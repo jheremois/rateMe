@@ -1,0 +1,17 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', 'gcr.io/ritme-335915/github.com/jheremois/ritme-server:$SHORT_SHA', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/ritme-335915/github.com/jheremois/ritme-server:$SHORT_SHA']
+
+  - name: envi
+    env:
+      CI: true
+      DB_HOST_DEV: ${{ secrets.DB_HOST_DEV }}
+      DB_USER_DEV: ${{ secrets.DB_USER_DEV }}
+      DB_PASSWORD_DEV: ${{ secrets.DB_PASSWORD_DEV }}
+      DATABASE_DEV: ${{ secrets.DATABASE_DEV }}
+    run: |
+        echo ${#DB_HOST_DEV}
+        echo ${#DB_USER_DEV}

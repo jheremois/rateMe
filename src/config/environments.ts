@@ -34,7 +34,7 @@ const appConfigLocal: ConfigTypes = {
 
 const appConfigDev: ConfigTypes = {
   app: {
-    PORT: Number(process.env.PORT) || 4000,
+    //PORT: Number(process.env.PORT) || 4000,
     HOST: process.env.APP_HOST_DEV || '192.168.1.29',
   },
   db: {
@@ -52,9 +52,9 @@ const appConfigDev: ConfigTypes = {
   },
   passport: {
     JWT: {
-      CLIENT_ID: process.env.JWT_CLIENT_ID_DEV,
+      CLIENT_ID: process.env.JWT_CLIENT_ID_DEV || "",
       CLIENT_SECRET: process.env.JWT_CLIENT_SECRET_DEV || "lapara01",
-      CALLBACK_URL: process.env.JWT_CALLBACK_URL_DEV,
+      CALLBACK_URL: process.env.JWT_CALLBACK_URL_DEV || "",
     }
   },
 };
