@@ -8,7 +8,7 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "clean": "rimraf dist/ uploads/",
-    "start": "npm run build && node dist/index.js"
+    "start": "npm run build && node build/index.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
