@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getUsers, getUser, getMe, editUser } from "../../controllers/userControllers/usersControllers";
-import verifyToken from "../../middlewares/jwt";
+import { getUsers, getUser, getMe, editUser } from "../controllers/usersControllers";
+import verifyToken from "../middlewares/jwt";
 
 const router = Router()
 

@@ -1,10 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
-import AuthRoutes from "./router/userRoutes/Auth.routes";
+import AuthRoutes from "./router/Auth.routes";
 import appConfig from "./config/environments";
 import http from "http"
 import 'reflect-metadata'
-import UserRoutes from "./router/userRoutes/Users.routes";
+import UserRoutes from "./router/Users.routes";
 import passport from "passport";
 import passportMiddleware from "./middlewares/passport";
 import cors from "cors";

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { pool } from '../../config/database';
-import { userType } from '../../models/interfaces/user.type';
+import { pool } from '../config/database';
+import { userType } from '../models/interfaces/user.type';
 import { verify } from "jsonwebtoken";
-import appConfig from "../../config/environments";
+import appConfig from "../config/environments";
 
 const conf = appConfig.passport.JWT
 
@@ -16,25 +16,22 @@ export const getUsers = async (_req: Request, res: Response) => {
   , (err, response: userType[])=>{
     response.length < 1
     ?
-      res.status(500).json(
+      res.status(400).json(
         {
-          status: 500,
           data: "No user where found"
         }
       )
     :
     err
       ?
-        res.status(500).json(
+        res.status(402).json(
           {
-            status: 500,
             data: err
           }
         )
       : 
         res.status(200).json(
           {
-            status: 200,
             response: response
           }
         )
@@ -55,25 +52,22 @@ export const getUser = async (req: Request, res: Response) => {
   , (err, response: userType[])=>{
     response.length < 1
     ?
-      res.status(500).json(
+      res.status(401).json(
         {
-          status: 500,
           data: "No user where found"
         }
       )
     :
       err
         ?
-          res.status(500).json(
+          res.status(402).json(
             {
-              status: 500,
               data: err
             }
           )
         : 
           res.status(200).json(
             {
-              status: 200,
               response: response
             }
           )
@@ -96,18 +90,16 @@ export const getMe = async (req: Request, res: Response) => {
   , (err, response: userType[])=>{
     response.length < 1
     ?
-      res.status(500).json(
+      res.status(402).json(
         {
-          status: 500,
           data: "No user where found"
         }
       )
     :
       err
         ?
-          res.status(500).json(
+          res.status(400).json(
             {
-              status: 500,
               data: err
             }
           )
@@ -130,7 +122,7 @@ export const editUser = async (req: Request, res: Response) => {
 
   user_name && profile_pic
   ?
-  user_name.length > 4
+  user_name.length > 2
     ?
       pool.query(`
         UPDATE profiles
@@ -139,13 +131,13 @@ export const editUser = async (req: Request, res: Response) => {
       `, (err, response: userType[])=>{
         response
           ?
-            res.json(response)
+            res.status(200).json(response)
           :
-            res.json("User name allready selected")
+            res.status(402).json("User name allready selected")
       })
     :
-      res.json("Name field is failing")
+      res.status(403).json("Name field is failing")
   :
-    res.send("Internal error")
+    res.status(500).send("Internal error")
 
 }

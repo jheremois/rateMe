@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { pool } from '../../config/database';
-import { userType } from '../../models/interfaces/user.type';
-import {passwrdHashing, passwrdCheck} from "../../helpers/fucntions"
+import { pool } from '../config/database';
+import { userType } from '../models/interfaces/user.type';
+import {passwrdHashing, passwrdCheck} from "../helpers/fucntions"
 import { sign } from 'jsonwebtoken';
-import appConfig from "../../config/environments";
+import appConfig from "../config/environments";
 const conf = appConfig.passport.JWT
 
 export const register = async (req: Request, res: Response) => {
@@ -19,32 +19,42 @@ export const register = async (req: Request, res: Response) => {
       }, (err, response: any)=>{
         err
           ?
-            res.status(500).json(
+            res.status(400).json(
               {
-                status: 500,
-                data: err
+                DB_error: err,
+                error: ""
               }
             )
           :
             pool.query('INSERT INTO profiles SET?',{
               user_id: response.insertId,
               user_name: user_name
-            }, (profileRes)=>{
-              res.json(
-                {
-                  ProfileRes: profileRes,
-                  UserRes: response,
-                  status: 200,
-                }
-              )
-            }) 
+            }, (err, profileRes)=>{
+              err
+                ?
+                  pool.query(`DELETE FROM users WHERE user_id = '${response.insertId}'`,
+                  (err, response: any)=>{
+                    res.status(401).json({
+                      DB_error: err,
+                      error: "",
+                      res: response,
+                      id: response.insertId
+                    })
+                  })
+                :
+                  res.status(200).json(
+                    {
+                      ProfileRes: profileRes,
+                      UserRes: response,
+                    }
+                  )
+            })
       })
     })
     :
-      res.status(500).json(
+      res.status(403).json(
         {
-          status: 500,
-          data: "Fields missing"
+          error: "Error creating this user"
         }
       )
 }
@@ -95,11 +105,11 @@ export const login = async (req: Request, res: Response) => {
                   })
 
                 }else{
-                  res.status(400).json({ error: "Fields invalid" });
+                  res.status(400).json({ error: "No matches", errMessage: "Email or password are wrong"});
                 }
               })
             :
-              res.status(400).json({ error: "Fields invalid" });
+              res.status(400).json({ error: "Error", errMessage: "Error trying to authenticate"});
       })
     )
     :
