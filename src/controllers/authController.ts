@@ -22,7 +22,7 @@ export const register = async (req: Request, res: Response) => {
             res.status(400).json(
               {
                 DB_error: err,
-                error: ""
+                errMessage: "Email or username allready in use"
               }
             )
           :
@@ -36,7 +36,7 @@ export const register = async (req: Request, res: Response) => {
                   (err, response: any)=>{
                     res.status(401).json({
                       DB_error: err,
-                      error: "",
+                      errMessage: "Username allready selected",
                       res: response,
                       id: response.insertId
                     })
@@ -54,7 +54,7 @@ export const register = async (req: Request, res: Response) => {
     :
       res.status(403).json(
         {
-          error: "Error creating this user"
+          errMessage: "Error creating this user"
         }
       )
 }
@@ -116,7 +116,7 @@ export const login = async (req: Request, res: Response) => {
       res.status(500).json(
         {
           status: 500,
-          data: "Fields missing"
+          errMessage: "Fields missing"
         }
       )
 
