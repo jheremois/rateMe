@@ -20,7 +20,7 @@ const port = app.get('port')
 
 app.use('/api/', [AuthRoutes()])
 app.use('/', (req: any, res: any)=> {
-    res.send("Ritme App")
+    res.send("Ritme Auth")
 })
 
 server.listen(port);
