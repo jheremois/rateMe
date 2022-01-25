@@ -88,7 +88,7 @@ export const login = async (req: Request, res: Response) => {
                 
                 if (validPassword) {
                   
-                  const token = sign({user_id: response[0].user_id, user_name: response[0].user_name}, conf.CLIENT_SECRET, {expiresIn: "1h"})
+                  const token = sign({user_id: response[0].user_id, user_name: response[0].user_name}, conf.CLIENT_SECRET, {expiresIn: '365d'})
                   console.log(token)
 
                   res.status(200).json({ 
