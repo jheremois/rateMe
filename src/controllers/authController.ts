@@ -22,7 +22,7 @@ export const register = async (req: Request, res: Response) => {
             res.status(400).json(
               {
                 DB_error: err,
-                errMessage: "Email or username allready in use"
+                errMessage: "Email or username already in use"
               }
             )
           :
@@ -36,7 +36,7 @@ export const register = async (req: Request, res: Response) => {
                   (err, response: any)=>{
                     res.status(401).json({
                       DB_error: err,
-                      errMessage: "Username allready selected",
+                      errMessage: "Username already selected",
                       res: response,
                       id: response.insertId
                     })
