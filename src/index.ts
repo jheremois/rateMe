@@ -14,12 +14,8 @@ const server = http.createServer(app);
 dotenv.config({path: './.env'})
 app.set('port', process.env.PORT || 4000)
 
-const corsOptions = {
-	origin: "https://ritme.vercel.app",
-	optionsSuccessStatus: 200
-};
+app.use(cors())
 
-app.use(cors(corsOptions))
 app.use(express.json())
 app.use(passport.initialize())
 

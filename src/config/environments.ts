@@ -34,7 +34,6 @@ const appConfigLocal: ConfigTypes = {
 
 const appConfigDev: ConfigTypes = {
   app: {
-    //PORT: Number(process.env.PORT) || 4000,
     HOST: process.env.APP_HOST_DEV || '192.168.1.29',
   },
   db: {
@@ -45,7 +44,7 @@ const appConfigDev: ConfigTypes = {
     USER: process.env.DB_USER_DEV,
   },
   cors: {
-    allowOrigin: process.env.ALLOW_ORIGIN_DEV || 'http://localhost:4000',
+    allowOrigin: process.env.ALLOW_ORIGIN_DEV || 'https://ritme.vercel.app',
   },
   sessions: {
     SECRET: process.env.CLIENT_SECRET_DEV || 'sessions',
