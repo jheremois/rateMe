@@ -15,7 +15,7 @@ dotenv.config({path: './.env'})
 app.set('port', process.env.PORT || 4000)
 
 const corsOptions = {
-	origin: appConfig.cors.allowOrigin,
+	origin: "https://ritme.vercel.app",
 	optionsSuccessStatus: 200
 };
 
