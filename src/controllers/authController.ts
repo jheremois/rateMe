@@ -52,7 +52,7 @@ export const register = async (req: Request, res: Response) => {
       })
     })
     :
-      res.status(403).json(
+      res.status(500).json(
         {
           errMessage: "Error creating this user"
         }
@@ -71,7 +71,7 @@ export const login = async (req: Request, res: Response) => {
         INNER JOIN profiles
         ON users.user_id = profiles.user_id
         WHERE users.email = '${email}'
-      `, (err, response: userType[])=>{
+      `, (err: Error, response: userType[])=>{
         err
           ?
             res.status(500).json(
@@ -109,7 +109,7 @@ export const login = async (req: Request, res: Response) => {
                 }
               })
             :
-              res.status(400).json({ error: "Error", errMessage: "Error trying to authenticate"});
+              res.status(500).json({ error: "Error", errMessage: "Error trying to authenticate", response: response});
       })
     )
     :
