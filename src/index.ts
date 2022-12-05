@@ -5,16 +5,21 @@ import http from "http"
 import 'reflect-metadata'
 import passport from "passport";
 import cors from "cors";
+import appConfig from "./config/environments";
 
 const app = express()
 
 const server = http.createServer(app);
 
 dotenv.config({path: './.env'})
-
 app.set('port', process.env.PORT || 4000)
 
-app.use(cors())
+const corsOptions = {
+	origin: appConfig.cors.allowOrigin,
+	optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions))
 
 app.use(express.json())
 app.use(passport.initialize())
